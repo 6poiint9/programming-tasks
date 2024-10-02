@@ -1,2 +1,2 @@
-# programming-tasks
-HS programming files. 
+# programming-tasks 😈
+This repo contains HS programming files. 
