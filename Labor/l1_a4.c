@@ -11,9 +11,7 @@ int main()
     printf("Ganze Zahl: %i \n", 42);
     // %f is used for floating pint numbers 
     printf("Fliesskommazahl: %f \n", 3.1415);
-    /* The number should be printed out as 00003.14
-    to achieve this we can apply some "padding" => %08.2f
-    the 0 = padding type, the 8 = total numbers, 2f = digits after comma and float*/
+    /* The number should be printed out as 00003.14 -> padding applied*/
     printf("Fliesskommazahl mit Formatangabe: %08.2f \n", 3.1415);
     return 0;
 }
