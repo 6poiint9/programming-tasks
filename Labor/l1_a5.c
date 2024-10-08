@@ -11,6 +11,9 @@ int main()
     // reading user input 
     scanf("%d %d %d", &num1, &num2, &num3);
     // prints out the numbers formatted and in reverse order
-    printf("Zahl 3:  %4d \nZahl 2:  %4d \nZahl 1:  %4d \n", num3, num2, num1);
+    printf("Zahl 3:  %4d\n", num3);
+    printf("Zahl 2:  %4d\n", num2);
+    printf("Zahl 1:  %4d\n", num1);
     return 0;
 }
+
