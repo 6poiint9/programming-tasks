@@ -32,10 +32,8 @@ int main()
       return 1; 
   } 
   // formula to calulate A 
-  // A = V * e * phi
   float A = (float) V * e * phi; 
   // calculae concentration of alcohol in the blood
-  // W = A / (m * r) 
   float W = A / (Mg * r); 
 
   // print out alcohol concentration
