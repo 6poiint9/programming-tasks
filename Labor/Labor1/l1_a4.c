@@ -3,9 +3,6 @@
 // going to try out a number of format specifiers/placeholders 
 int main()
 {
-    // %s is a placeholder for a string data-type 
-    // the text can be printed out the following ways
-    //printf("String:Das ist eine Zeichenkette \n");
     printf("String: %s \n", "Das ist eine Zeichenkette");
     // %d is used for integers 
     printf("Ganze Zahl: %i \n", 42);
