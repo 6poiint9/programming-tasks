@@ -1,5 +1,5 @@
 #include <stdio.h>
-//#include <string.h>
+#include <string.h>
 
 int main()
 {
@@ -7,21 +7,21 @@ int main()
   float eingabe, eur, usd;
   const float usdEur = 0.9468;
   const float eurUsd = 1.0532;
-  int währung;
+  char währung[5];
   // fragen ob $ oder Euro umrechnen 
-  printf("bitte betrag eingeben und umrechnungsWährung bestimmen [EUR = 1,  USD = 2]\n"); 
+  printf("bitte betrag eingeben und umrechnungsWährung bestimmen [EUR oder USD]\n"); 
   // stdin verarbeiten
-  scanf("%f %d", &eingabe, &währung);  
+  scanf("%f %s", &eingabe, währung);  
   // umrechnung des betrags 
-  if (währung == 1)
+  if (strcmp(währung, "EUR") == 0) 
   {
     float usd = eingabe * eurUsd; 
-    printf("%.2f€ ist = %.2f$\n", eingabe, usd);
+    printf("%.2f€ ist = %.2f Dollar$\n", eingabe, usd);
   }
-  else if (währung == 2)
+  else if (strcmp(währung, "USD") == 0) 
   {
     float eur = eingabe * usdEur;
-    printf("%.2f$ ist = %.2f€\n", eingabe, eur);
+    printf("%.2f$ Dollar ist = %.2f€\n", eingabe, eur);
   }
   else 
   {
