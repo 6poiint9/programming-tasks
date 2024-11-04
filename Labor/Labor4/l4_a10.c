@@ -2,29 +2,31 @@
 // Funktion die überprüft ob eine genzzahl Primzahl ist oder nicht
 // Ja = 1, Nein = 0
 
-int prime(int a) {
-  // o oder 1 
-  int primcheck;
-  // prüfen ob keine primzahl 
-  if (a % 2 == 0 || a % 3 == 0 || a % 5 == 0)
-   // dann primcheck = 0
-   primcheck = 0; 
-  // keine primzahl
-  else {
-   // primcheck = 1
-   primcheck = 1; 
-  }
+int prime(int num) {
+    // Negative Zahlen, 0 und 1 sind keine Primzahlen
+    if (num <= 1) {
+        return 0;
+    }
 
-  // 0 oder 1 zurückgeben 
-  return primcheck; 
+    // Schleife, um die Zahl zu prüfen
+    for (int i = 2; i * i <= num; i++) {
+        if (num % i == 0) { // Wenn teilbar, dann keine Primzahl
+            return 0;
+        }
+    }
 
+    return 1; // Ist eine Primzahl
 }
 
-// Ausgabe
+// 
+
+
+
+//Ausgabe
 /*
 int main() 
 {
- printf(prime(29) ? "Primzahl" : "KEINE Primzahl");
+ printf(prime(2) ? "Primzahl" : "KEINE Primzahl");
  return 0;
 }
 */
