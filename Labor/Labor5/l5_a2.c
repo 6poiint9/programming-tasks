@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+// zählen Sie alle Kleinbuchstaben
 int main()
 {
   // char-array variable declarieren

@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+// Array aus 4 double-Komponenten einlesen -> ausgabe index + kleinste zahl
 int main()
 {
   // variablen

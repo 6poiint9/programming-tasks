@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+// zählen Sie alle Vokale 
 int main() 
 {
   // string array
