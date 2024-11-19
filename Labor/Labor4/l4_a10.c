@@ -23,13 +23,13 @@ int prime(int num) {
 
 
 //Ausgabe
-/*
+
 int main() 
 {
  printf(prime(2) ? "Primzahl" : "KEINE Primzahl");
  return 0;
 }
-*/
+
 
 
 
