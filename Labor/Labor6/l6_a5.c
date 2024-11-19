@@ -10,7 +10,7 @@ void sphere(int radius, double *pvolume, double *psurface) {
 }
 
 // Ausgabe
-
+/*
 int main()
 {
  int radius = 5;
@@ -19,5 +19,5 @@ int main()
  printf("Radius: %d\nVolumen: %.1lf\nOberflaeche %.1lf\n", radius, volume, surface);
  return 0;
 }
-
+*/
 
