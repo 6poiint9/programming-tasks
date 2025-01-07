@@ -1,20 +1,24 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <stdlib.h>
+//#include <stdlib.h>
 #include <string.h>
+// wegen toupper() 
 #include <ctype.h>
 
+// Feldgröße definiert + Zeichen
 #define SIZE 10
 #define EMPTY '.'
 #define SHIP '#'
 #define HIT 'X'
 #define MISS 'O'
 
+// definition der schiffsarten + größen
 #define BATTLESHIP 5  // Schlachtschiff
 #define CRUISER 4     // Kreuzer
 #define DESTROYER 3   // ZerstÃ¶rer
 #define SUBMARINE 2   // U-Boot
 
+// switch-case statement um schiffsname zurückzugeben, * für mehr sicherheit
 const char* get_ship_type(int size) {
     switch (size) {
         case BATTLESHIP: return "Schlachtschiff";
@@ -24,19 +28,21 @@ const char* get_ship_type(int size) {
         default: return "Unbekanntes Schiff";
     }
 }
-
+// Funktion um zu kontrollieren ob schiff komplett zerstört wurde  
 int ship_is_destroyed(char field[SIZE][SIZE], int x, int y, int *ship_type) {
     int size = 1; // Aktuelles Feld zÃ¤hlt als 1
     int temp_size = 0;
+    // return 0 falls nicht zerstört und 1 falls schon
+    // => jede richtung wird geprüft  
 
-    // Nach oben prÃ¼fen
+    // Nach oben prüfen
     for (int i = x - 1; i >= 0 && field[i][y] != EMPTY && field[i][y] != MISS; i--) {
         temp_size++;
         if (field[i][y] == SHIP) return 0; //Feld noch intakt
     }
     size += temp_size;
 
-    // Nach unten prÃ¼fen
+    // Nach unten prüfen
     temp_size = 0;
     for (int i = x + 1; i < SIZE && field[i][y] != EMPTY && field[i][y] != MISS; i++) {
         temp_size++;
@@ -44,7 +50,7 @@ int ship_is_destroyed(char field[SIZE][SIZE], int x, int y, int *ship_type) {
     }
     size += temp_size;
 
-    // Nach links prÃ¼fen
+    // Nach links prüfen
     temp_size = 0;
     for (int j = y - 1; j >= 0 && field[x][j] != EMPTY && field[x][j] != MISS; j--) {
         temp_size++;
@@ -52,28 +58,32 @@ int ship_is_destroyed(char field[SIZE][SIZE], int x, int y, int *ship_type) {
     }
     size += temp_size;
 
-    // Nach rechts prÃ¼fen
+    // Nach rechts prüfen
     temp_size = 0;
     for (int j = y + 1; j < SIZE && field[x][j] != EMPTY && field[x][j] != MISS; j++) {
         temp_size++;
         if (field[x][j] == SHIP) return 0;
     }
     size += temp_size;
-
+    
+  // falls kein intaktes schiff gefunden 
+  // speichert größe
     *ship_type = size;
     return 1; // Schiff zerstÃ¶rt
 }
 
+// bearbeitet die Nutzer Eingaben und koordinaten  
 void parse_coordinates(const char *coord, int *x, int *y) {
-    // Spalte bestimmen (A bis J)
+    // SPALTE bestimmen (A bis J)
     *y = toupper(coord[0]) - 'A';
     if (*y < 0 || *y >= SIZE) {
+        // falls ungültige koord. eingegeben 
         printf("UngÃ¼ltige Spalte: %c\n", coord[0]);
         *x = -1; *y = -1;
         return;
     }
 
-    // Zeile bestimmen (1 bis 10)
+    // ZEILE bestimmen (1 bis 10)
     int row = 0;
     if (sscanf(coord + 1, "%d", &row) != 1 || row < 1 || row > SIZE) {
         printf("UngÃ¼ltige Zeile: %s\n", coord + 1);
@@ -85,6 +95,7 @@ void parse_coordinates(const char *coord, int *x, int *y) {
     *x = row - 1;
 }
 
+// Feld initalisieren mit Empty -> '.'
 void init_field(char field[SIZE][SIZE]) {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -92,7 +103,7 @@ void init_field(char field[SIZE][SIZE]) {
         }
     }
 }
-
+// Funktion für die Ausgabe der Feldes
 void print_field(char field[SIZE][SIZE]) {
     printf("  ABCDEFGHIJ\n");
     for (int i = 0; i < SIZE; i++) {
@@ -106,24 +117,20 @@ void print_field(char field[SIZE][SIZE]) {
     
 }
 
-/* Hauptproblem bei der Bearbeitung der Aufgabe: 
-    * 10. Zeile wurde nicht eingelesen,
-    * LÃ¶sungen: ErhÃ¶hung der BuffergrÃ¶ÃŸe der Start- und Endkoordinaten
-    * Suche der Trennungszeichen, um die Eingabe korrekt zu implementieren
-*/
-
+// Funktion für platzierung der schiffe 
 void read_ship_positions_from_input(char field[SIZE][SIZE]) {
     char input[20];
     while (1) {
         scanf("%19s", input);
-
+        // falls (e) dann schießen     
         if (strcmp(input, "e") == 0) {
-            break; // Spiel starten
+            break; 
         }
 
-        char start[5] = {0}, end[5] = {0}; // BuffergrÃ¶ÃŸe wird auf 5 erhÃ¶ht
+        char start[5] = {0}, end[5] = {0}; 
         char *dash = strchr(input, '-'); // Trennungszeich in der Eingabe finden
-
+         
+        // kontrolle trennungszeichen
         if (dash) {
             // Eingabe manuell aufteilen
             *dash = '\0';  // '-' durch Null-Terminator ersetzen
@@ -160,11 +167,12 @@ void read_ship_positions_from_input(char field[SIZE][SIZE]) {
     }
 }
 
-
+// Funktion für Schießen und verarbeitung der schüsse 
 void play_game(char field[SIZE][SIZE], int *hits, int *shots) {
     char input[10];
+    // zuerst mit 0 initialisiert
     int total_ship_parts = 0;
-
+    // Schleife um schiffe zu zählen 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             if (field[i][j] == SHIP) {
@@ -172,10 +180,10 @@ void play_game(char field[SIZE][SIZE], int *hits, int *shots) {
             }
         }
     }
-
+    // while schleife für nutzereingabe schießen
     while (1) {
         scanf("%s", input);
-
+        // Spiel beenden falls (x) eingegeben 
         if (strcmp(input, "x") == 0) {
             printf("\nDas Spiel wurde beendet.\n\n");
             break;
@@ -188,9 +196,9 @@ void play_game(char field[SIZE][SIZE], int *hits, int *shots) {
             printf("UngÃ¼ltige Eingabe. Bitte erneut versuchen.\n");
             continue;
         }
-
+        // schuss-zähler 
         (*shots)++;
-
+        // Falls getroffen 
         if (field[x][y] == SHIP) {
             field[x][y] = HIT;
             (*hits)++;
@@ -201,34 +209,45 @@ void play_game(char field[SIZE][SIZE], int *hits, int *shots) {
                 printf("%s Getroffen!\n", input);
             }
 
-            //PrÃ¼fung, ob alle Schiffe versenkt wurden
+            //Beenden falls alle schiffe versenkt wurden
             if (*hits == total_ship_parts) {
                 printf("\nAlle Schiffe wurden versenkt\n\n");
                 break;
             }
+        // Falls fehlschuss
         } else if (field[x][y] == EMPTY) {
             field[x][y] = MISS;
             printf("%s Fehlschuss!\n", input);
+        // kontrolle ob MISS nochmal angeschossen wurde
         } else {
             printf("Diese Position wurde bereits beschossen.\n");
         }
     }
 }
-
+// Funktion um das Finale feld und die Trefferquote zurückzugeben
 void evaluate_and_print_results(char field[SIZE][SIZE], int hits, int shots) {
     print_field(field);
-    double accuracy = (shots > 0) ? ((hits / (double)shots) * 100.0) : 0.0; //TernÃ¤ren Operator: Vermeiden, um durch 0 zu teilen
+    // mit ternary operator falls nichts getroffen wurde und => nicht durch 0 teilen
+    double accuracy = (shots > 0) ? ((hits / (double)shots) * 100.0) : 0.0; 
     printf("Trefferquote: %.0lf%%\n", accuracy);
 }
 
+// ------------------- MAIN ----------------------------------
 int main() {
     int hits = 0;
     int shots = 0;
+    //feld wird mit 10*10 initialisiert
     char field[SIZE][SIZE];
+    // pass by value => feld-basierte funktionen mit SIZE initialisiert, schuss basierte mit 0
+    // basis Feld initialisiert 
     init_field(field);
+    // nutzer eingabe platzieren
     read_ship_positions_from_input(field);
+    // ausgabe platziere schiffe
     print_field(field);
+    // nutzer eingabe schießen
     play_game(field, &hits, &shots);
+    // ausgabe endfeld und Trefferquote 
     evaluate_and_print_results(field, hits, shots);
     return 0;
 }
