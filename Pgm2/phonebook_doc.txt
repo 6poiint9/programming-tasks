@@ -1,0 +1,76 @@
+---- Phonebook using linked lists ----
+
+- includes: name and number
+- sort list alphabetically 
+
+Functions:
+
+addContact() ->
+- add a new node to the beginning of the list 
+
+sort() ->
+- sort contacts alphabetically (first letter of person) 
+- using merge sort 
+
+print() ->
+- prints out phonebook 
+
+delete() ->
+- deletes a contact by name 
+
+free() ->
+- deletes and frees memory of whole list 
+
+
+Notes:
+
+- when printing the lists print our "before change" and stuff
+
+
+// Function to find the middle of the list
+contact* getMiddle(contact* head) {
+    if (!head || !head->next) return head;
+
+    contact* slow = head;
+    contact* fast = head->next;
+
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
+// Function to merge two sorted linked lists
+contact* merge(contact* left, contact* right) {
+    if (!left) return right;
+    if (!right) return left;
+
+    contact* result = nullptr;
+
+    if (left->name < right->name) {
+        result = left;
+        result->next = merge(left->next, right);
+    } else {
+        result = right;
+        result->next = merge(left, right->next);
+    }
+
+    return result;
+}
+
+// Merge Sort function for linked list
+contact* mergeSort(contact* head) {
+    if (!head || !head->next) return head;
+
+    contact* middle = getMiddle(head);
+    contact* secondHalf = middle->next;
+    middle->next = nullptr; // Split the list
+
+    contact* left = mergeSort(head);
+    contact* right = mergeSort(secondHalf);
+
+    return merge(left, right);
+}
+
