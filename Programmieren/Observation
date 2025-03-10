@@ -1,0 +1,36 @@
+
+A4
+
+- user input n amount of integers 
+
+- stored in an dynamic array
+
+- integers are summed up in 2 ways:
+
+recursive function
+
+iterative function
+
+=> sum printed out in main function
+
+- memory should be freed at the end 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
