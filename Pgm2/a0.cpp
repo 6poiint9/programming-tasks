@@ -38,9 +38,15 @@ int main()
   for (short i = 0; i < anzahl; i++) {
     std::cout << "Zahl[" << i << "]: " << zahlen[i] << std::endl;  
   }
-  // durchschnitt berechnen
-  durchschnitt = static_cast<double>(summe) / static_cast<double>(anzahl); 
-  // ausgabe von durchschnitt bis 4 nachkommastellen (gerundet) 
+  // Nicht durch 0 teilen 
+  if (anzahl == 0) {
+    std::cout << "Anzahl ist 0!";
+  }
+  else {
+    // Durchschnitt berechnen 
+    durchschnitt = static_cast<double>(summe) / static_cast<double>(anzahl); 
+  }
+    // ausgabe von durchschnitt bis 4 nachkommastellen (gerundet) 
   std::cout << "Durchschnitt: " << durchschnitt; 
   
   return 0;
