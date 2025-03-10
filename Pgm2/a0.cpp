@@ -6,7 +6,6 @@ Nutzer gibt zahlen ein
 */
 #include <iostream>
 #include <vector>
-#include <iomanip>
 
 int main()
 {
@@ -42,7 +41,7 @@ int main()
   // durchschnitt berechnen
   durchschnitt = static_cast<double>(summe) / static_cast<double>(anzahl); 
   // ausgabe von durchschnitt bis 4 nachkommastellen (gerundet) 
-  std::cout << "Durchschnitt: " << std::fixed << std::setprecision(4) << durchschnitt; 
+  std::cout << "Durchschnitt: " << durchschnitt; 
   
   return 0;
 }
