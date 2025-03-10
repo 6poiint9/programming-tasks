@@ -32,7 +32,7 @@ class Library {
   // Function to add books
   void add(const string &title, const string &author) {
     if (count < capacity) {
-     books[count++] = new Book(title, author); 
+     books[count++] = new Book(title, author); // function called   
      cout << "Book added successfully!\n"; 
     }
     else {
@@ -48,6 +48,7 @@ class Library {
     return; 
    }
    else {
+    // loop through book "array" and print stuff
     cout << "\n Books in Library:\n"; 
     for (int i = 0; i < count; i++) {
      cout << i + 1 << ". "; 
@@ -69,7 +70,7 @@ class Library {
      return; 
     } 
     else {
-     delete books[index - 1]; // ASK // free memory 
+     delete books[index - 1]; // index -1 because array starts counting at 0
      // Re-order books
      for (int i = index -1; i < count - 1; i++) {
       books[i] = books[i + 1]; // shift books 
