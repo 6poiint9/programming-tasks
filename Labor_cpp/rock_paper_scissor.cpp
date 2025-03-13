@@ -82,7 +82,7 @@ string insert_name() {
 } 
 
 Object determine_choice(string choice) {
-    
+    // Falls man Computer wahl vorbestimmen will 
     if (choice.compare("CoderunnerTestValueROCK") == 0)
     {
         return Object::ROCK;
@@ -97,14 +97,7 @@ Object determine_choice(string choice) {
     }
     else
     {
-        // Den Computer zufällig waehlen lassen.
-
-        // HIER beantworten Sie folgende Fragen:
-        // Was bewirkt die funktion srand?
-        // Warum wird hier die Zeit (time) als Eingabe für die Funktion srand verwendet?
-        // Wie funktioniert die funktion rand?
-        // Warum wird hier modulo 3 verwendet?
-
+        // Computer random Wählen lassen
         srand(static_cast<int>(time(nullptr)));
         int choice = rand() % 3;
         return static_cast<Object>(choice);
