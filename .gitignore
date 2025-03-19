@@ -1,2 +1,5 @@
-# Ignore any executable files
+# Ignore all executable files
+*.exe
 *.out
+*.bin
+
