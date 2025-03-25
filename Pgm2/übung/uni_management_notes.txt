@@ -1,0 +1,38 @@
+DO:
+
+=> a way to add, store multiple Students + Prof 
+
+-> dynmaically => University class 
+
+=> Create Course class:
+- have different courses
+- course details (printable)
+- possibility to assign courses to prof and student 
+
+--------
+
+- implement a way to track objects effectively => delete by member values
+
+=> in University class add:
+- remove by id 
+
+- display
+
+- destructor 
+.
+
+- Add Course class:
+functionality:
+
+- have different courses 
+-> have course details 
+
+- enroll prof and students to course 
+
+- Display course detalails:
+Prof: ...
+
+Students: ...
+
+
+

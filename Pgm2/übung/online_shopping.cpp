@@ -17,6 +17,7 @@ class Product {
 
 }; 
 
+// "Has - a" relationship -> Cart has product 
 class Cart {
   private:
    Product **products; // Dynamic array of type class 
