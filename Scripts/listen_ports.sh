@@ -15,7 +15,7 @@ show_help ()
 command_mode () 
 {
  # get ss output to a file and awk it  
- doas ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2)
+ doas ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2) | sort -n 
 
  rm output.txt # (for security reasons)   
 }
@@ -23,6 +23,8 @@ command_mode ()
 
 user_mode () 
 {
+  # get UID from pid -> ps -o uid= -p 18,406
+
  echo "u mode"
 }
 
