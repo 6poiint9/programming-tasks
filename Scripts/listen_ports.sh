@@ -1,5 +1,14 @@
 #!/usr/bin/env bash 
 
+#######################################################################
+# MIT License
+#
+#File: listen_ports.sh 
+#Description: Display open listening TCP/IPv4 ports wih the according PID or UID
+#Author: Nabil, HS-Esslingen
+#Date: March 27th, 2025
+#######################################################################
+
 # - function to diplay help stuff | -> -h --help
 show_help ()
 {
@@ -14,18 +23,39 @@ show_help ()
 
 command_mode () 
 {
- # get ss output to a file and awk it  
+ # get ss output to a file and awk it -> print the ports sorted 
  doas ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2) | sort -n 
 
- rm output.txt # (for security reasons)   
+ rm output.txt # get rid of the file  
 }
 
 
 user_mode () 
 {
-  # get UID from pid -> ps -o uid= -p 18,406
+  # Get the data needed and put into a file 
+  doas ss --tcp --listening -4 -p -n > output.txt
 
- echo "u mode"
+    # Extract and sort Ports
+  ports=$(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2 | sort -n)
+    # Extract PIDs
+  pids=$(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2 | sort -n | cut -d '=' -f2)
+
+    # Convert PIDs into an array
+   readarray -t pid_array <<< "$pids"
+
+    # Print Ports and corresponding UIDs
+   echo "$ports" | while read -r port; do
+        # Get the UID for the first matching PID
+      uid=$(ps -o uid= -p "${pid_array[0]}")
+        # Print Port and UID with two spaces in between
+   echo "$port  $uid"
+        
+        # Remove the first PID from the array
+        pid_array=("${pid_array[@]:1}")
+  done
+
+  # => remove files after script ends 
+  rm output.txt 
 }
 
 invalid_help ()
@@ -36,7 +66,7 @@ invalid_help ()
 
 }
 
-# handle options
+# Main Logic 
 for arg in "$@"; do 
     case $arg in 
         -h|--help)
@@ -60,30 +90,4 @@ done
 
 # if no arguments provided
 command_mode
-
-
-# function/logic for = listening ports + process | -> -c --command or nothing 
-# run -> sudo ss --tcp --listening -4 -p -n (get numerical ports) / -tlpn4
-# run -> sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i ipv4
-# => REAL
-# sudo ss --tcp --listening -4 -p -n > output.txt && awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2
-#-> port number 
-# awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2 => (pid=...)   OR  
-# awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2 | cut -d'=' -f2 => (only pid number )
-#-> Pid number
-# ----- MAIN --------
-# sudo ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2)
-# rm output.txt (for security reasons)   
-
-
-# - function/logic fo = listening ports + UID | -> -u --user 
-
-# loop + statement to choose between output/options/flags  
-# => check example: template and /home/gen69/.dotfiles/.scripts/bhbcase
-# 
-  
-
-
-
-
 

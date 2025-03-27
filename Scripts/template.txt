@@ -6,7 +6,7 @@
 #   template.sh [--help]
 # The option --help shows the help and exits
 #
-# Author: Your name, Your affiliation, HS-Esslingen
+# Author: Your name, Your affiliat  ion, HS-Esslingen
 # Date: Date-of-the-last-edit
 #######################################################################
 
