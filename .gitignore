@@ -3,3 +3,11 @@
 *.out
 *.bin
 
+# Ignore all executables
+*.[eE][xX][eE]   # Ignore .exe files
+*                 # Ignore all files without extensions
+
+i
+
+# Ignore all Linux executables (no extension)
+a*   # Ignore files starting with "a"

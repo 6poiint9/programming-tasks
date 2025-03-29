@@ -34,6 +34,10 @@ class Person { // Base class
      cout << "\nPeople: ";
      cout << "Name: " << name << "\nAge: " << age << "\nID: " << id << endl; 
    }
+  // Virtual function to get id  
+   virtual string get_id() const {
+    return id; 
+   }
    // frees derived class functions before base 
    virtual ~Person() {} 
 };
@@ -52,9 +56,14 @@ class Professor : public Person {
     : Person{n, a, id}, fac{fac} {} 
   // display function 
    void display() const override {
-   cout << "\nProfessors: "; 
-   cout << "Name: " << name << "\nAge: " << age << "\nID: " << id << "\nFaculty: " << fac << endl; 
-   }  
+    cout << "\nProfessors: "; 
+    cout << "Name: " << name << "\nAge: " << age << "\nID: " << id << "\nFaculty: " << fac << endl; 
+  }
+  
+  // get id 
+   string get_id() const override {
+    return id;  
+   }
 };
 
 class Student : public Person {
@@ -71,6 +80,11 @@ class Student : public Person {
     cout << "\nStudents:"; 
     cout << "\nName: " << name << "\nAge: " << age << "\nID: " << id << "\nGPA: " << gpa << "\nMajor: " << major << endl;  
    }
+  
+  // get id 
+   string get_id() const override {
+    return id;  
+   }
 };
 
 // -----
@@ -80,6 +94,7 @@ class University {
   short capacity; // to prevent memory missuse 
   short count; // total number, number student/profs 
   Person **people; // dynamic array
+  //University *next; 
  public:
   // First initialize and allocate memory
   // max 15 student and 2 professors
@@ -87,7 +102,7 @@ class University {
    people = new Person*[capacity]; // allocate memory for the array of 17 people 
   }
   // => have the structure to manage multiple people  
-  
+    
   // Add people:
 
    void add_prof(const string &n, short a, const string &id, const string &fac) {
@@ -98,7 +113,8 @@ class University {
     }
     else {
      // add and allocate memory for the values of an individual person/object 
-     people[count++] = new Professor(n, a, id, fac); 
+     people[count++] = new Professor(n, a, id, fac);
+     
      cout << "Professor added ✅"; 
     }
    }
@@ -116,27 +132,64 @@ class University {
     } 
    }
 
-/*
+
   // Remove people by ID: 
-  void remove(short id) {
-   // check if list empty 
+  void remove(string id) {
+   bool found = false; 
+   // check if list empty -> base case 
    if (count == 0) {
-    cout << "Uni is empty :("; 
+    cout << "Uni ist empty !";
     return; 
    }
-   else {
-    while (id != )
-    for (int i = 0; i < count; i++) {
-          
-    }   
-   }
-  }
-*/
+   // traverse the array and c
+   for (int i = 0; i < count; i++) {
+    if (people[i]->get_id() == id)  {
+      // delete + re-arrange array
+      delete people[i]; 
+      for (int j = i; j < count - 1; j++) { // i -> starting point 
+              people[j] = people[j + 1];
+      }
 
+      // Clear the last element 
+      people[count - 1] = nullptr;
+
+      count--; // decrease count  
+      cout << "Person removed :)";
+      found = true;
+
+      break; // -> found person 
+    }
+   }
+   if (!found) {
+    cout << "could not find the id"; 
+   } 
+  } 
+
+  // display
+  void display() {
+    // check if list empty
+    if (count == 0) {
+      cout << "Uni is empty :("; 
+      return;
+    }
+    else {
+      for (int i = 0; i < count; i++) {
+        people[i]->display(); 
+      }
+    }
+  }
   
-  // Destructor 
+  // Destructor
+  ~University() {
+    for (int i = 0; i < count; i++) {
+      delete people[i]; 
+    }
+    delete[] people; // Deallocate the array itself
+  }
 };
 
+// head pointer 
+University *head = nullptr; 
 
 // Course class
 // => Has-a relationship -> composition
@@ -150,16 +203,49 @@ int main()
   short age;
   // Tie Prof values
   tie(name, age, id, fac) = get_prof_values(); 
-  Professor p1(name, age, id, fac); 
+  University p1;  
+  p1.add_prof(name, age, id, fac); 
  // Tie Student values 
   tie(name, age, id, gpa, major) = get_stud_values(); 
-  Student s1(name, age, id, gpa, major);
-    
-  p1.display();
-  s1.display(); 
+  //Student s1(name, age, id, gpa, major);
+  
 
   return 0;
 }
+
+void interact() {
+  string ex;
+  char option;
+  do {
+   cout << "\nWelcome to the University management system!\n";
+   cout << "Options:";
+   cout << "- Type 'exit' to end the program"; 
+   cout << "- Press 1 to add Professor";
+   cout << "- Press 2 to add a student";
+   cout << "- Press 3 to display the University members";
+   cout << "- Press 4 to remove a memeber by ID";
+   cout << "\nEnter option: "; 
+   cin >> option;
+   while (option < 1 || option > 4) {
+    cout << "Please re-enter a valid option!";
+    cin >> option; 
+   }
+   // conditionals
+   switch (option) {
+     case '1': 
+      get_prof_values(); 
+
+      
+   }
+   
+  }
+  while (ex != "exit");
+
+  
+}
+
+
+
 
 tuple<string, short, string, string> get_prof_values() {
   short a;
