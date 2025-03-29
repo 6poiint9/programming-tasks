@@ -5,8 +5,9 @@ class Student
 {
  private:
   std::string _name, _first_name;
+
  public:
-  // construktor 
+  // Parametrisierter construktor 
   Student(const std::string &name, const std::string &f_name) {
     _name = name;
     _first_name = f_name;
@@ -18,12 +19,11 @@ class Student
   std::string get_name() const {
     return _name; 
   }
-
   std::string get_fname() const {
     return _first_name; 
   }
-  
-  // display functions 
+
+  // print functions 
   void print(bool choose) const {
    if (choose) {
     std::cout << "print() mit Parameter; Student: " <<_first_name << " " << _name << std::endl;   
@@ -32,11 +32,11 @@ class Student
     std::cout << "print() mit Parameter; Student: " <<_first_name << " " << _name;    
     }
    }
-   
    void print() const {
     std::cout << "print() ohne Parameter; Student: " << _first_name << " " << _name << std::endl; 
    }
-   
+
+   // Destruktor
    ~Student() {
     std::cout << "Destruktor Student: " << _first_name << " " << _name << std::endl; 
    } 
@@ -45,39 +45,41 @@ class Student
 class Employee 
 {
  private:
-  std::string _first_name, _name; 
+  std::string _first_name, _name;
+
  public:
+  // Parametrisierter construktor mit init-liste
   Employee(const std::string &f_name, const std::string &name) 
   : _first_name{f_name}, _name{name} {
   std::cout << "Parametrisierter Konstruktor Employee: " << _first_name << " " << _name << std::endl; 
   } 
-
-  Employee() : _first_name{"Erika"}, _name{"Mustermann"} {
-    std::cout << "Standardkonstruktor Employee: " << _first_name << " " << _name << std::endl;  
+  // Standardkonstruktor ruft Parametrisierten auf 
+  Employee() : Employee("Erika","Mustermann") {
+   std::cout << "Standardkonstruktor Employee: " << _first_name << " " << _name << std::endl;
   }
-
+  // Konvertierungskonstruktor
   Employee(const Student &s) : _first_name{s.get_fname()}, _name{s.get_name()} { 
    std::cout << "Konvertierungskonstruktor Employee: " << _first_name << " " << _name << std::endl; 
   } 
-
+  
   // print methoden 
   void print(bool choose) const {
    if (choose) {
-    std::cout << _first_name << "\n" << _name << std::endl;   
+    std::cout << "print() mit Parameter; Mitarbeiter: " <<  _first_name << " " << _name << std::endl;   
     }
    else {
-    std::cout << _first_name << " " << _name << std::endl;    
+    std::cout << _first_name << " " << _name;    
     }
-   }
-   
+   } 
    void print() const {
-    std::cout << "print() ohne Parameter; Mitarbeiter:" << _first_name << " " << _name << std::endl; 
+    std::cout << "print() ohne Parameter; Mitarbeiter: " << _first_name << " " << _name << std::endl; 
    }
 
+   // Destruktor
    ~Employee() {
      std::cout << "Destruktor Employee: " << _first_name << " " << _name << std::endl; 
     }
-
+     
 };
 
 
