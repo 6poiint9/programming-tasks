@@ -9,7 +9,7 @@
 #Date: March 27th, 2025
 #######################################################################
 
-# - function to diplay help stuff | -> -h --help
+# function to diplay help stuff | -> -h --help
 show_help ()
 {
  echo "Usage: listen_ports.sh [options] "
@@ -23,7 +23,7 @@ show_help ()
 
 command_mode () 
 {
- # get ss output to a file and awk it -> print the ports sorted 
+ # get ss output to a file and awk it -> cut out only the information needed -> print the ports sorted 
  doas ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2) | sort -n 
 
  rm output.txt # get rid of the file  
@@ -58,6 +58,7 @@ user_mode ()
   rm output.txt 
 }
 
+# function if an invalid option was used 
 invalid_help ()
 {
   echo "listen_ports.sh: unrecognized option"
@@ -88,6 +89,6 @@ for arg in "$@"; do
     esac
 done
 
-# if no arguments provided
+# if no arguments provided -> default 
 command_mode
 
