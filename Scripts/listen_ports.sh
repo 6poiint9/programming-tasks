@@ -24,7 +24,7 @@ show_help ()
 command_mode () 
 {
  # get ss output to a file and awk it -> cut out only the information needed -> print the ports sorted 
- doas ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2) | sort -n 
+ sudo ss --tcp --listening -4 -p -n > output.txt && paste <(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2) <(awk '{print $6}' output.txt | grep -v '^Peer$' | cut -d',' -f2) | sort -n 
 
  rm output.txt # get rid of the file  
 }
@@ -33,7 +33,7 @@ command_mode ()
 user_mode () 
 {
   # Get the data needed and put into a file 
-  doas ss --tcp --listening -4 -p -n > output.txt
+  sudo ss --tcp --listening -4 -p -n > output.txt
 
     # Extract and sort Ports
   ports=$(awk '{print $4}' output.txt | grep -v '^Local$' | cut -d':' -f2 | sort -n)
