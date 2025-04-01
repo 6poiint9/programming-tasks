@@ -5,8 +5,7 @@
 #
 #File: listen_ports.sh 
 #Description: Display open listening TCP/IPv4 ports wih the according PID or UID
-#Author: Nabil, HS-Esslingen
-#Date: March 27th, 2025
+#
 #######################################################################
 
 # function to diplay help stuff | -> -h --help
