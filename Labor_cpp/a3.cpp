@@ -6,7 +6,7 @@ eine matrix mit X-char drucken je nach parameter
 
 using namespace std;
 
-// 
+// defaul werte 4 falls nur 4 übergeben wird  
 void print_rectangle(short breite = 4, short höhe = 4); 
 
 int main(int argc, char *argv[])

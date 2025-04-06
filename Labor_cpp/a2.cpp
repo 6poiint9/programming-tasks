@@ -1,4 +1,5 @@
-//#include <string>
+// Linked-List funktionen ergänzen 
+
 #include <iostream>
 using namespace std;
 
