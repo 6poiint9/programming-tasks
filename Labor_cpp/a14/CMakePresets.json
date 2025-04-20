@@ -1,0 +1,54 @@
+{
+    "version": 2,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 28,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "description": "Sets generator, build and install directory",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}"
+        },
+        {
+            "name": "linux",
+            "description": "Sets compilers, build type",
+            "inherits": "base",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE" : "Debug",
+                "CMAKE_CXX_COMPILER" : "clang++-18"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "hostOS": "Linux"
+                }
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "core-build",
+            "description": "Inherits environment from base configurePreset",
+            "configurePreset": "base",
+            "hidden": true,
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "linux-clean-build",
+            "description": "Clean before build",
+            "configurePreset": "linux",
+            "inherits": "core-build",
+            "cleanFirst": true
+        },
+        {
+            "name": "linux-verbose-build",
+            "description": "Passes -v to ninja",
+            "configurePreset": "linux",
+            "inherits": "core-build",
+            "nativeToolOptions": ["-v"]
+        }
+    ]
+}

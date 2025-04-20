@@ -1,0 +1,3 @@
+/home/gen69/Code/Labor_cpp/a13/build/CMakeFiles/MathDemo.dir
+/home/gen69/Code/Labor_cpp/a13/build/CMakeFiles/edit_cache.dir
+/home/gen69/Code/Labor_cpp/a13/build/CMakeFiles/rebuild_cache.dir
