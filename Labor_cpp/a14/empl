@@ -1,0 +1,7 @@
+#!/usr/bin/env bash 
+
+clang++ -std=c++20 -fmodules -Xclang -emit-module-interface \
+  -c Employee.cppm -o build/Employee.pcm
+
+
+

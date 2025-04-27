@@ -1,0 +1,45 @@
+
+Ich habe noch kein native support für module in c++
+und mir werden im IDE errors für code wie:
+
+module; , export module name; , import module_name; 
+
+angezeigt.
+
+Dennoch habe ich Employee.cppm compilieren können, bei den anderen
+files hat es gescheitert, es kann einfach nich Employee importieren.
+
+Compilierungs commands die ich versucht habe (gcc und clang): 
+Diese haben für Employee.cppm funktioniert für den rest nicht.
+
+g++ -std=c++20 -fmodules-ts -x c++ Employee.cppm -c -o Employee.o
+
+clang++ -std=c++20 -fprebuilt-module-path=. -c Employee.cppm -o Employee.o
+
+
+#Hab auch versucht explizit den pfad anzugeben der Employee object und pcm files:
+
+mkdir -p build
+
+clang++ -std=c++20 -fmodules -Xclang -emit-module-interface \
+  -c Employee.cppm -o build/Employee.pcm
+
+clang++ -std=c++20 -fmodules -c Employee.cppm -o build/Employee.o
+
+-> 
+clang++ -std=c++20 -fmodules \
+  -fmodule-file=Employee=build/Employee.pcm \
+  -c Worker.cppm -o build/Worker.o
+
+Und auch andere ich habs aber leider nicht hinbekommen. 
+
+
+
+
+
+
+
+
+
+
+

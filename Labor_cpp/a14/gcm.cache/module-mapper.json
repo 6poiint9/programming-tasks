@@ -1,0 +1,19 @@
+[
+  {
+    "logical-name": "Employee",
+    "source-path": "Employee.cppm",
+    "is-interface": true,
+    "compiled-module-path": "build/Employee.gcm"
+  }
+]
+
+[
+  {
+    "logical-name": "Employee",
+    "preferred-include": "Employee.cppm",
+    "is-interface": true,
+    "source-path": "Employee.cppm",
+    "compiled-module-path": "gcm.cache/Employee.gcm"
+  }
+]
+
