@@ -3,8 +3,10 @@
 
 class Customer {
  private:
+  // nur deklaration kein speicher erteilt 
   static int _s_count;  
   static int _s_id_generator;
+
   std::string _name;
   std::string _location;
   int _age;

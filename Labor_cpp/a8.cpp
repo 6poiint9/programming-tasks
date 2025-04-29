@@ -2,6 +2,8 @@
 
 using namespace std;
 
+// Komposition mit "Has a" beziehung
+
 class Point {
  private:
   double _y, _x; 
@@ -23,7 +25,7 @@ class Point {
   double get_x() const {
     return _x; 
   }
-
+  // verschiebt in x / y -richtung 
   void move(double dx, double dy) {
     _x += dx; 
     _y += dy; 
@@ -41,7 +43,7 @@ class Point {
 
 class Circle {
  private:
-  Point _centre; 
+  Point _centre; // objekt 
   double _radius = 1.0; 
  public: 
   Circle(Point p) : _centre{p} {} 

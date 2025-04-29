@@ -6,10 +6,12 @@ private:
 	int _day, _month, _year;
 
 public:
+  // konstruktor für startdatum 
 	Date(int d = 0, int m = 0, int y = 0) : _day{d}, _month{m}, _year{y} {} 
-
+  
+  // operator overloading für '+'
 	Date operator+(int days) {
-    // Auf aktuells datum zeigen (begin_date) 
+    // Objekt Auf aktuells datum zeigen (begin_date) 
     Date newdate = *this; 
     // von tage
     newdate._day += days;
