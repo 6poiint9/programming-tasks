@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 using namespace std;
 
@@ -29,3 +30,34 @@ int main() {
   
     return 0;
 }
+*/
+#include <iostream>
+
+class Base {
+public:
+    void show(int x) { std::cout << "Base show\n"; }
+};
+
+class Derived : public Base {
+public:
+    void show() { std::cout << "Derived show\n"; }
+};
+
+int main() {
+    Derived d;
+    d.show();       // OK: calls Derived::show()
+    d.Base::show(5);  // ❌ error: Base::show is hidden by Derived::show()
+
+    std::cout << __DATE__ << std::endl; 
+}
+
+
+
+
+
+
+
+
+
+
+

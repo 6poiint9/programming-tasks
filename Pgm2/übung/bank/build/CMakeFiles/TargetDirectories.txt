@@ -1,0 +1,3 @@
+/home/gen69/Code/Pgm2/übung/bank/build/CMakeFiles/BankSystem.dir
+/home/gen69/Code/Pgm2/übung/bank/build/CMakeFiles/edit_cache.dir
+/home/gen69/Code/Pgm2/übung/bank/build/CMakeFiles/rebuild_cache.dir
