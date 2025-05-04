@@ -3,9 +3,8 @@
 #include <string>
 using namespace std;
 
-const size_t length = 10; // Define array size
+const size_t length = 10; // array size
 
-// Use non-type template parameter for array size
 template <typename T, size_t N>
 std::array<T, N> sort(std::array<T, N> arr) {
     for (size_t i = 0; i < N - 1; i++) {
