@@ -8,7 +8,7 @@
 #define MAX_SYSCALLS 6900
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Your Name");
+MODULE_AUTHOR("Nabil");
 MODULE_DESCRIPTION("Track read, write, open, close, mkdir syscalls using kprobes");
 MODULE_VERSION("2.0");
 
