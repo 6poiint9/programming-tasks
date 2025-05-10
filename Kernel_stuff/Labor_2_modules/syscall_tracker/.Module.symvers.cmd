@@ -1,1 +1,0 @@
-savedcmd_/home/bob/programming-tasks/Kernel_stuff/Labor_2_modules/syscall_tracker/Module.symvers :=  scripts/mod/modpost -M -m       -o /home/bob/programming-tasks/Kernel_stuff/Labor_2_modules/syscall_tracker/Module.symvers -n -T /home/bob/programming-tasks/Kernel_stuff/Labor_2_modules/syscall_tracker/modules.order -i Module.symvers -e 
