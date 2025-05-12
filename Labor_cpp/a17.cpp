@@ -20,15 +20,15 @@ public:
 	void method_1() { p("B::method_1()"); }
 	void method_2() override { p("B::method_2()"); }
 	void method_3() { p("B::method_3()"); }
-	void method_4() { p("B::method_4()", false); method_2(); }
+	virtual void method_4() { p("B::method_4()", false); method_2(); }
 };
 
 class C : public B {
 public:
 	void method_1() { p("C::method_1()"); }
 	void method_2() override { p("C::method_2()"); }
-	virtual void method_3() { p("C::method_3()"); }
-	void method_4() { p("C::method_4()", false); method_2(); }
+	virtual void method_3()  { p("C::method_3()"); }
+	void method_4() override { p("C::method_4()", false); method_2(); }
 };
 
 class D : public C {
