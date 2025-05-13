@@ -190,7 +190,19 @@ public:
     _date_of_return = date_of_return;
 }
   
-  void Medium::print() const {}   
+  void Medium::print() const {
+    cout << "Titel:         " << _title << endl;
+    cout << "Verlag:        " << _publisher << endl;
+    cout << "Jahr:          " << _year_of_publication << endl;
+    cout << "Ausleiher:     ";
+    if (_lender) {
+        cout << _lender->get_name() << " von: " << _date_of_check_out << " bis: " << _date_of_return << endl;
+    }
+    else {
+        cout << "-" << endl;
+    }
+
+  }  
   
   Medium* Medium::clone() const {
     // This will be overridden in derived classes
@@ -222,19 +234,12 @@ public:
   { 
   }
 
-  void Book::print() const {
+  void Book::print() const  {
     cout << "Autor:         " << _author << endl;
-    cout << "Titel:         " << _title << endl;
-    cout << "Verlag:        " << _publisher << endl;
-    cout << "Jahr:          " << _year_of_publication << endl;
-
-    cout << "Ausleiher:     ";
-    if (_lender)
-        _lender->print();
-    else
-        cout << "-";
+    Medium::print();
     cout << endl;
-  }
+
+}
 
 
   Medium* Book::clone() const {
@@ -264,19 +269,23 @@ public:
   }
 
   void DVD::print() const {
-    cout << "Titel:         " << _title << endl;
-    cout << "Verlag:        " << _publisher << endl;
-    cout << "Jahr:          " << _year_of_publication << endl;
-    cout << "Spieldauer:    " << _c_play_time << " Minuten" << endl;
 
-    cout << "Ausleiher:     ";
-    if (_lender)
-        _lender->print();
-    else
-        cout << "-";
-    cout << endl;
-  }  
+    Medium::print();
+    cout << "Dauer:         " << _c_play_time;
 
+    if (_c_play_time > 0 && !_lender) {
+        cout << endl;  // Fügt einen Absatz hinzu, wenn die Dauer größer als 0 ist und es keinen Ausleiher gibt
+    }
+
+    if (_lender) {
+        cout << "\n" << endl;
+    }
+    else {
+        cout << "" << endl;  // "-" ausgeben, wenn es keinen Ausleiher gibt
+    }
+
+
+} 
 
   Medium* DVD::clone() const {
     return new DVD(*this);
@@ -319,46 +328,67 @@ public:
 // hier Konstruktor und Methoden
 
   Library::Library(int maximal_number_of_media)
-    : _c_maximal_number_of_media(maximal_number_of_media)
-  {
-  }
+    : _c_maximal_number_of_media(maximal_number_of_media) {}
 
   void Library::procure_medium(Medium &m) {
+
     if (media.size() < _c_maximal_number_of_media) {
-        media.push_back(m.clone()); // 👈 Clone ensures polymorphic copy
-    } else {
-        cout << "Maximale Medienanzahl erreicht!" << endl;
+        media.push_back(m.clone());
+
     }
+
+
   }
 
+
   void Library::search_medium(string search_word) {
+    cout << "Suche nach \"" << search_word << "\" Ergebnis:" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << endl;
+
     for (size_t i = 0; i < media.size(); ++i) {
         if (media[i]->get_title().find(search_word) != string::npos) {
             cout << "Medium " << i << ":" << endl;
             media[i]->print();
-            cout << endl;
+
         }
+
     }
+    cout << "---------------------------------------" << endl;
+    cout << endl;
   }
+
 
   void Library::check_out_medium(int number, Person &p, Date d) {
-    if (number < 0 || static_cast<size_t>(number) >= media.size()) {
-        cout << "Ungültige Mediennummer!" << endl;
-        return;
+
+    if (number < (media.size())) {
+        media[number]->check_out(p, d, d + p.get_check_out_duration());
     }
 
-    Date return_date = d + p.get_check_out_duration(); // Return date = checkout date + duration
-    media[number]->check_out(p, d, return_date);
   }
+
 
   void Library::print() const {
-    for (size_t i = 0; i < media.size(); ++i) {
+
+     static bool first_call = true;  // �berpr�ft, ob es die erste Ausgabe ist
+
+    if (first_call) {
+        cout << endl;  // Zus�tzliche Leerzeile bei der ersten Ausgabe
+        first_call = false;  // Setzt die Variable auf false f�r zuk�nftige Aufrufe
+    } 
+    cout << "Bibliothekskatalog:" << endl;
+    cout << "---------------------------------------" << endl;
+    cout << endl;
+
+    for (size_t i = 0; i < media.size(); ++i)
+    {
         cout << "Medium " << i << ":" << endl;
         media[i]->print();
-        cout << endl;
-    }
-  }
 
+    }
+    cout << "---------------------------------------" << endl;
+    cout << endl;
+}
 
 int main(int argc, char *argv[]) 
 {

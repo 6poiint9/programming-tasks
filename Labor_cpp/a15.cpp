@@ -1,3 +1,9 @@
+/*
+Bubble-sort algorithmus mit array
+als eingabeparameter. 
+-> Array als eingabeparameter 
+*/
+
 #include <iostream>
 #include <array>
 #include <string>
@@ -6,6 +12,8 @@ using namespace std;
 const size_t length = 10; // array size
 
 template <typename T, size_t N>
+// Template funktion -> array als rügkgabe
+// -> call by value 
 std::array<T, N> sort(std::array<T, N> arr) {
     for (size_t i = 0; i < N - 1; i++) {
         for (size_t j = 0; j < N - 1 - i; j++) {
@@ -33,7 +41,7 @@ int main() {
     for (size_t i = 0; i < sorted_char_container.size(); i++) {
         cout << i << ": " << sorted_char_container[i] << endl;
     }
-
+    // compare() lexigrafisch
     array<string, length> string_container = {
         "Im", "Sommer", "ist", "es", "meistens", "heiß", "und", "es", "regnet", "wenig."
     };

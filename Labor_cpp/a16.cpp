@@ -42,10 +42,11 @@ public:
     // Add a point at the end of the polygonline
     Polygonline& add_point(Point p) {
         _points.push_back(p);
-        return *this;
+        return *this; // damit man ".add_point(p1).add_point(p2)"
     }
 
     // Append another polygonline
+    // kopiert keine reference  
     void append_polygonline(Polygonline& pl) {
         for (const auto& point : pl._points) {
             _points.push_back(point);
