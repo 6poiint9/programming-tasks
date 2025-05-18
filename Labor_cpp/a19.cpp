@@ -17,7 +17,7 @@ public:
 class Pizza : public Meal {
 private: 
   string pizza_art; 
-vector<string> topping_list;
+  vector<string> topping_list;
 public:
   Pizza(string art) 
     : pizza_art{art} {}
