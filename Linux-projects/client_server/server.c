@@ -6,25 +6,37 @@
 #include <sys/un.h>
 #include <string.h>
 
+#include <signal.h>
+
 // sokcet file path 
 #define SOCKET_PATH "/tmp/socket_path"
 
+#define BUFFER_SIZE 100 // buffer 100 bytes 
 
+int server_fd;  
 
-//#include <errno.h>        // errno and error codes
-
+void cleanup_exit(int signum) {
+  close(server_fd);
+  unlink(SOCKET_PATH);
+  printf("👋 Server shut down gracefully!\n");
+  exit(0); 
+}
 
 int main()
 {
-  int server_fd; // file descriptor
+  int client_fd; // file descriptor
   struct sockaddr_un addr; 
+  char buffer[BUFFER_SIZE]; 
+   
+  signal(SIGINT, cleanup_exit); // handler-fkt 
+
   server_fd = socket(AF_UNIX, SOCK_STREAM, 0); 
  // socket(int domain, int type, int protocol)
   if (server_fd == -1) {
     perror("socket"); // perror prints to stderr 
     exit(EXIT_FAILURE); 
   }
-
+  
   // Setting up the socket-address structure:    
   memset(&addr, 0, sizeof(struct sockaddr)); // initilize memory -> set bytes to 0
   addr.sun_family = AF_UNIX;
@@ -46,9 +58,35 @@ int main()
     close(server_fd); 
     exit(EXIT_FAILURE); 
   }
-   
+  printf("Server listening 👂 on %s\n", SOCKET_PATH);
+  printf("Server started. Press Ctrl+C to quit 🚫\n"); 
 
+  // loop to accept clients 
+  while(1) {
+     client_fd = accept(server_fd, NULL, NULL); 
+    if (client_fd == -1) {
+      perror("accept");
+      continue; // zum nächsten client gehen  
+    }
+    printf("Socket: Accepted new client connection ✅\n"); 
    
+  
+    // read client message 
+    ssize_t s_read = read(client_fd, buffer, BUFFER_SIZE - 1); 
+    if (s_read > 0) {
+      buffer[s_read] = '\0'; 
+      printf("Socket received 👍: type=TEXT, content=%s, size=13\n", buffer); 
+  
+      // respond 
+      const char *response = "Hello from Server! 😉"; 
+      write(client_fd, response, strlen(response));
+      printf("Response sent back to client 🕊️\n");
+    } else if (s_read == -1) {
+      perror("read"); 
+    }
+      close(client_fd); // close client-connection when done  
+    } 
+ 
   return 0;
 }
 
