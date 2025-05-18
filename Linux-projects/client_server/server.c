@@ -6,6 +6,9 @@
 #include <sys/un.h>
 #include <string.h>
 
+#include <pthread.h>   
+pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER; // initilize mutex 
+
 #include <signal.h>
 
 // sokcet file path 
@@ -18,6 +21,7 @@ int server_fd;
 void cleanup_exit(int signum) {
   close(server_fd);
   unlink(SOCKET_PATH);
+  pthread_mutex_destroy(&lock); // cleanup mutex 
   printf("👋 Server shut down gracefully!\n");
   exit(0); 
 }
@@ -68,6 +72,9 @@ int main()
       perror("accept");
       continue; // zum nächsten client gehen  
     }
+    // lock before accesing recourses 
+    pthread_mutex_lock(&lock); 
+
     printf("Socket: Accepted new client connection ✅\n"); 
    
   
@@ -84,7 +91,10 @@ int main()
     } else if (s_read == -1) {
       perror("read"); 
     }
-      close(client_fd); // close client-connection when done  
+      close(client_fd); // close client-connection when done
+    
+      // unlock after sharing 
+      pthread_mutex_unlock(&lock);
     } 
  
   return 0;
