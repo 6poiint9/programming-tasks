@@ -6,12 +6,7 @@
 using namespace std;
 
 class Meal {
-/*protected:
-  string topping;*/ 
 public:
-  /*Meal(string top) 
-    : topping{top} {}
-    */
   virtual void add_topping(string top) = 0;
 
   virtual void prepare() const = 0; 
@@ -53,7 +48,7 @@ public:
   } 
 
   void prepare() const override {
-    cout << "Pizza " << burger_art << ". Pizzaboden, belegt mit:" << endl; 
+    cout << burger_art << ". " <<"Brötchen mit:" << endl; 
     for (auto& t : topping_list) {
       cout << "- " << t << endl; 
     }
