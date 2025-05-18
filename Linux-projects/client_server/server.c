@@ -73,7 +73,8 @@ int main()
       continue; // zum nächsten client gehen  
     }
     // lock before accesing recourses 
-    pthread_mutex_lock(&lock); 
+    pthread_mutex_lock(&lock);
+    // => only one mutex to prevent deadlock 
 
     printf("Socket: Accepted new client connection ✅\n"); 
    
@@ -94,7 +95,7 @@ int main()
       close(client_fd); // close client-connection when done
     
       // unlock after sharing 
-      pthread_mutex_unlock(&lock);
+      pthread_mutex_unlock(&lock); // prevent deadlock, leaks 
     } 
  
   return 0;
