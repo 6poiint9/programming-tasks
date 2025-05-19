@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
         }
         write(fd_write, message, strlen(message));
         close(fd_write);
-        printf("Message sent 🧵: %s\n", message);
+        printf("Message sent 🫡: type:TEXT, content:%s, size:%zd\n", message, strlen(message));
 
         char buffer[BUFFER_SIZE];
         int fd_read = open(FIFO_S2C, O_RDONLY);
@@ -86,12 +86,10 @@ int main(int argc, char *argv[])
 
         if (bytes_read > 0) {
             buffer[bytes_read] = '\0';
-            printf("Server replied 🧵: %s\n", buffer);
+            printf("Server replied 🥳: type:TEXT, content:%s, size:%zd \n", buffer, bytes_read);
         }
   }
   return 0;
 }
-
-
-
+ 
 

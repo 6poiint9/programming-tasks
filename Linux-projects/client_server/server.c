@@ -123,13 +123,13 @@ int main(int argc, char *argv[])
 
             if (bytes_read > 0) {
                 buffer[bytes_read] = '\0';
-                printf("FIFO received 🧵: %s\n", buffer);
+                printf("FIFO received 👍: type:TEXT, content:%s, size:%zu\n", buffer, bytes_read);
 
                 int fd_write = open(FIFO_S2C, O_WRONLY);
                 const char *response = "Hello from Server via FIFO!";
                 write(fd_write, response, strlen(response));
                 close(fd_write);
-                printf("FIFO response sent 🧵\n");
+                printf("FIFO response sent back to client 🕊️ \n");
             }
 
             pthread_mutex_unlock(&lock);

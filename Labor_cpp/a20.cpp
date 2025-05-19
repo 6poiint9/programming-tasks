@@ -5,8 +5,8 @@ using namespace std;
 
 class AuthenticationResult {
 private:
-  bool _c_is_authenticated; 
-  string _c_username;
+  const bool _c_is_authenticated; 
+  const string _c_username;
 public:
   AuthenticationResult(bool auth, string u_name = "unauthenticated_user") 
     : _c_is_authenticated{auth}, _c_username{u_name} {} 
@@ -22,7 +22,8 @@ public:
 
 class IAuthenticationProcedure {
 public: 
-  virtual AuthenticationResult authenticate() = 0; 
+  virtual AuthenticationResult authenticate() = 0;
+  virtual ~IAuthenticationProcedure() = default; 
 };
 
 class Client {
