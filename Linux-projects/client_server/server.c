@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
   if (argc > 1 && strcmp(argv[1], "-np") == 0)
     use_socket = 0;
 
-  if (use_socket) { 
+  if (use_socket) {  
     int client_fd; // file descriptor
     struct sockaddr_un addr; 
     char buffer[BUFFER_SIZE]; 
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     }
   
     // Setting up the socket-address structure:    
-    memset(&addr, 0, sizeof(struct sockaddr)); // initilize memory -> set bytes to 0
+    memset(&addr, 0, sizeof(struct sockaddr_un)); // initilize memory -> set bytes to 0
     addr.sun_family = AF_UNIX;
     strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path)-1); // set file sun_path
  
