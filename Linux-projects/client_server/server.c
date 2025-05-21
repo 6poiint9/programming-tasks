@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h> // read(), write(), close()
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <string.h>
@@ -9,10 +9,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define SOCKET_PATH "/tmp/socket_path"
+#define SOCKET_PATH "/tmp/socket_path" // bind() and connect()
 #define FIFO_C2S "/tmp/fifo_c2s"
 #define FIFO_S2C "/tmp/fifo_s2c"
-#define BUFFER_SIZE 100
+#define BUFFER_SIZE 100 
 
 int server_fd;
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
@@ -20,7 +20,7 @@ pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 void cleanup_exit(int signum) {
     close(server_fd);
     unlink(SOCKET_PATH);
-    unlink(FIFO_C2S);
+    unlink(FIFO_C2S); // unlink fifo-files 
     unlink(FIFO_S2C);
     pthread_mutex_destroy(&lock);
     printf("👋 Server shut down gracefully!\n");
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
       } else if (s_read == -1) {
         perror("read"); 
       }
-        close(client_fd); // close client-connection when done
+        close(client_fd); // close client-connection/fd when done
     
       // unlock after sharing 
         pthread_mutex_unlock(&lock); // prevent deadlock, leaks 
@@ -107,13 +107,14 @@ int main(int argc, char *argv[])
   }
   else {
        printf("Server using named pipes mode 🧵\n");
-
-        mkfifo(FIFO_C2S, 0666);
-        mkfifo(FIFO_S2C, 0666);
+        // create 2 pipes for bidirectional communication 
+        mkfifo(FIFO_C2S, 0666); // client to server 
+        mkfifo(FIFO_S2C, 0666); // server to client 
 
         char buffer[BUFFER_SIZE];
 
         while (1) {
+            // open in order to read message 
             int fd_read = open(FIFO_C2S, O_RDONLY);
             if (fd_read == -1) { perror("open read"); continue; }
 
@@ -124,7 +125,7 @@ int main(int argc, char *argv[])
             if (bytes_read > 0) {
                 buffer[bytes_read] = '\0';
                 printf("FIFO received 👍: type:TEXT, content:%s, size:%zu\n", buffer, bytes_read);
-
+                // open file for writing 
                 int fd_write = open(FIFO_S2C, O_WRONLY);
                 const char *response = "Hello from Server via FIFO!";
                 write(fd_write, response, strlen(response));
