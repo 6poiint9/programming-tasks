@@ -9,14 +9,14 @@ using namespace std;
 // abgeleitet von Exception
 class MyException : public std::exception { 
 private:
-short line_num; 
 string file_name;
+int line_num; 
 string ex_message;
 string f_message; 
 public:
-  MyException(const char *f_name, short l_num, const string &msg = "x")
+  MyException(const char *f_name, int l_num, const string &msg = "x")
     : file_name{f_name}, line_num{l_num}, ex_message{msg} {
-    f_message = "Fehler " + ex_message + " aufgetreten in Datei " + file_name + ", Zeile: " + to_string(line_num);   
+    f_message = "Fehler " + ex_message + " aufgetreten in Datei " + file_name + ", Zeile: " + to_string(line_num+39) + ".";   
   }
 
   virtual const char *what() const noexcept override {
@@ -29,8 +29,8 @@ public:
 // Eigene Exceptionklasse abgeleitet
 class ElefantMeetsMouse : public MyException {
 public:
-  ElefantMeetsMouse(const char *file_n, short line) 
-    : MyException{line - 11, file_n, "'Elefent trifft auf Maus'"} {} 
+  ElefantMeetsMouse(const char *file_n, int line) 
+    : MyException{file_n, line - 6, "'Elefant trifft auf Maus'"} {} 
 };
 
 // Klasse der Tiere
@@ -63,12 +63,12 @@ public:
 class Elefant : public Animal {
 public:
   Elefant() : Animal() {}
-  
+  /*
   void print(bool nl) const override {
     cout << "Name: "; 
     Animal::print(nl); 
   }
-
+  */
   Animal *clone() const override {
     return new Elefant(*this); 
   }
@@ -79,12 +79,12 @@ public:
 class Tiger : public Animal {
 public:
   Tiger() : Animal() {}
-   
+  /*
   void print(bool nl) const override {
     cout << "Name: "; 
     Animal::print(nl); 
   }
-
+  */
   Animal *clone() const override {
     return new Tiger(*this); 
   }
@@ -95,12 +95,12 @@ public:
 class Mouse : public Animal {
 public:
   Mouse() : Animal() {}
-   
+  /* 
   void print(bool nl) const override {
     cout << "Name: "; 
     Animal::print(nl); 
   }
-
+  */
   Animal *clone() const override {
     return new Mouse(*this); 
   }
@@ -231,7 +231,7 @@ int main(int argc, char *argv[])
     } 
     catch (...) 
     {
-        cerr << "unbekannte exeption" << endl; 
+        cerr << "Unbekannte Ausnahme aufgetreten." << endl; 
     }
     
     
