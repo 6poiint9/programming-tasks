@@ -14,9 +14,9 @@ string file_name;
 string ex_message;
 string f_message; 
 public:
-  MyException(string f_name, short l_num, const string &msg = "x")
+  MyException(const char *f_name, short l_num, const string &msg = "x")
     : file_name{f_name}, line_num{l_num}, ex_message{msg} {
-    f_message = "Fehler " + ex_message + " bei Datei " + file_name + " Zeile " + to_string(line_num);   
+    f_message = "Fehler " + ex_message + " aufgetreten in Datei " + file_name + ", Zeile: " + to_string(line_num);   
   }
 
   virtual const char *what() const noexcept override {
@@ -29,8 +29,8 @@ public:
 // Eigene Exceptionklasse abgeleitet
 class ElefantMeetsMouse : public MyException {
 public:
-  ElefantMeetsMouse(string file_n, short line) 
-    : MyException{file_n, line, "Elefent trifft auf Maus"} {} 
+  ElefantMeetsMouse(const char *file_n, short line) 
+    : MyException{line - 11, file_n, "'Elefent trifft auf Maus'"} {} 
 };
 
 // Klasse der Tiere
@@ -117,7 +117,7 @@ public:
         cout << "Bitte Name des Zoos eingeben: ";
         cin >> _name;
         if (_name.length() < 4) {
-          throw MyException(__FILE__, __LINE__, "Name zu kurz"); 
+          throw MyException(__FILE__, __LINE__, "'Zooname zu kurz'"); 
         } 
         // Ansonsten, den 5. Buchstaben des Namens gross machen
         _name.at(4) = toupper(_name.at(4));
@@ -152,8 +152,8 @@ public:
     // Alle Zootiere ausgeben
     void print() const
     {
-        for (const auto &animal : animals) {
-          cout << animal << endl; 
+        for (const auto &a : animals) {
+          a->print(true); 
         }
         
 
@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 
     // Ausnahmepruefung aktivieren
     // HIER
-    
+    try {     
 
         Zoo zoo;
         do
@@ -204,8 +204,8 @@ int main(int argc, char *argv[])
                 break;
             default:
                 // Einen String als Ausnahme werfen
-                // HIER
-               
+                cout << "Fehlerhafte Eingabe!" << endl; 
+                return 1; 
             }
 
             cout << endl;
@@ -213,27 +213,25 @@ int main(int argc, char *argv[])
         } while (choice != 'e');
     }
     // Ausnahmen auffangen
-    // Speziellste Ausnahme auffangen und ausgeben
     catch (ElefantMeetsMouse &e)
     {
         cout << e.what() << endl;
     }
-    // MyException auffangen und ausgeben
-    // HIER
-    
-
-    // Alle anderen Standardausnahmen auffangen und ausgeben
-    // HIER
-    
-
-    // Alle Strings auffangen und ausgeben
-    // HIER
-    
-
-    // Alle anderen Ausnahmen auffangen
+    catch (MyException& e) 
+    {
+        cout<< e.what()<<endl;
+    }
+    catch (const exception& e) 
+    {
+          cout << "Standardausnahme: " << e.what() << endl;
+    } 
+    catch (const string e) 
+    {
+          cout << "String Exception: " << e << endl; 
+    } 
     catch (...) 
     {
-        cerr << "unbekanntes exeption" << endl; 
+        cerr << "unbekannte exeption" << endl; 
     }
     
     
