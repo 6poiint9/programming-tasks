@@ -1,6 +1,7 @@
 #include <string>
-#include /*XXX*/
-#include /*XXX*/
+#include <ios>
+#include <iomanip>
+#include <iostream>
 using namespace std;
 
 int main(int argc, char* argv[]) {
