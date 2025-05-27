@@ -63,13 +63,7 @@ public:
 class Elefant : public Animal {
 public:
   Elefant() : Animal() {}
-  /*
-  void print(bool nl) const override {
-    cout << "Name: "; 
-    Animal::print(nl); 
-  }
-  */
-  Animal *clone() const override {
+    Animal *clone() const override {
     return new Elefant(*this); 
   }
 };
@@ -79,13 +73,7 @@ public:
 class Tiger : public Animal {
 public:
   Tiger() : Animal() {}
-  /*
-  void print(bool nl) const override {
-    cout << "Name: "; 
-    Animal::print(nl); 
-  }
-  */
-  Animal *clone() const override {
+    Animal *clone() const override {
     return new Tiger(*this); 
   }
 };
@@ -95,13 +83,7 @@ public:
 class Mouse : public Animal {
 public:
   Mouse() : Animal() {}
-  /* 
-  void print(bool nl) const override {
-    cout << "Name: "; 
-    Animal::print(nl); 
-  }
-  */
-  Animal *clone() const override {
+    Animal *clone() const override {
     return new Mouse(*this); 
   }
 };

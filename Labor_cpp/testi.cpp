@@ -26,12 +26,13 @@ public:
   virtual ~IAuthenticationProcedure() = default; 
 };
 
+// muss sich Authentitizieren 
 class Client {
     IAuthenticationProcedure* _authentication_procedure;
 
   public:
     void set_authentication_procedure(IAuthenticationProcedure* p) {
-        _authentication_procedure = p;
+        _authentication_procedure = p; // dependenc injection 
     };
 
     void execute() {
@@ -47,6 +48,8 @@ class Client {
     }
 };
 
+// Verschiedene Authentifiketions-möglichkeiten:
+
 class MockAuthentication : public IAuthenticationProcedure {
   public:
     AuthenticationResult authenticate() override { // const
@@ -56,7 +59,7 @@ class MockAuthentication : public IAuthenticationProcedure {
 
 class UsernamePassword : public IAuthenticationProcedure {
     string username, password;
-
+// username und passwort müssen gleich sein 
   public:
     AuthenticationResult authenticate() override {
         cout << "Username: " << endl;
@@ -77,7 +80,7 @@ class Certificate : public IAuthenticationProcedure {
         string certificate_name;
         cout << "Zertifikatsaussteller: " << endl;
         cin >> certificate_name;
-        if (certificate_name == "hs-esslingen") {
+        if (certificate_name == "hs-esslingen") { // muss passen 
             return AuthenticationResult(true, "certificate.owner");
         } else {
             return AuthenticationResult(false);
@@ -90,7 +93,7 @@ int main(int argc, char* argv[]) {
     Client client;
 
     cout << "Authentifizierung über das Authentifizierungsverfahren Mock Authentication" << endl;
-    IAuthenticationProcedure* mock_authentication = new MockAuthentication();
+    IAuthenticationProcedure* mock_authentication = new MockAuthentication(); // objekt erstellt für MockAuthentication
     client.set_authentication_procedure(mock_authentication);
     client.execute();
 
@@ -105,3 +108,5 @@ int main(int argc, char* argv[]) {
     client.execute();
     return 0;
 }
+
+
