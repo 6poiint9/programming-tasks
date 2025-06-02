@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 #include <exception>
-
+// => implement Store class + exeption class 
 using namespace std;
 
 // Hier Exception implementieren
@@ -17,7 +17,7 @@ public:
 // Hier Interface implementieren 
 class ISubscriber {
 public:
-  virtual void update(string s) = 0; 
+  virtual void update(string c) = 0; 
 }; 
 
 // Hier Klassen Customer und GoldCustomer implementieren
@@ -25,23 +25,47 @@ public:
 
 class Customer : public ISubscriber {
 private:
-  static int id_generator; 
+  static int _id_generator;
+  int id; 
+public:
+  Customer() {
+    id = ++_id_generator;
+  } 
+
+  void update(string c) override {
+     cout << "Customer" << id << c << endl; 
+  }
 };
 
 class GoldCustomer : public ISubscriber {
 private:
-  static int id; 
+  static int _id_generator; 
+  int id; 
+public:
+   GoldCustomer() {
+    id = ++_id_generator;
+   }
+
+   void update(string c) override {
+    cout << "GoldCustomer" << id << c << endl; 
+  }
 }; 
 
 // Publisher 
-class Store
-{
-public:
-    // Hier Methoden implementieren
-
+class Store {
 private:
-    list<ISubscriber *> _subscribers;
-    map<string, unsigned int> _product_availability{{"iPhone", 0}, {"Galaxy", 5}};
+  list<ISubscriber *> _subscribers;
+  map<string, unsigned int> _product_availability{{"iPhone", 0}, {"Galaxy", 5}};// state 
+public:
+  void subscribe(ISubscriber *s);
+
+  void unsubscribe(ISubscriber *s); 
+
+  void notify_subscribers(); 
+
+  void deliver_products(string p, int quantity); 
+
+  void sell_products(string p, int quantity); 
 };
 
 
