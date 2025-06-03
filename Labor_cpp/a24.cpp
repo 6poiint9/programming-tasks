@@ -7,17 +7,26 @@
 using namespace std;
 
 // Hier Exception implementieren
-class Myexception : public std::exception {
+class OutOfStockException : public std::exception {
 private:
-  string message; 
+  int available_;
+    int requested_;
 public:
-  //Myexception
+    OutOfStockException(int available, int requested)
+        : available_(available), requested_(requested) {}
+
+    const char* what() const noexcept override {
+        cout << "Es sind " << available_ << " Artikel vom Typ Galaxy verfügbar. "
+             << "Es können nicht " << requested_ << " Artikel verkauft werden." << endl;
+        return "";
+    }
 };
 
 // Hier Interface implementieren 
 class ISubscriber {
 public:
-  virtual void update(string c) = 0; 
+  virtual void update(string c) = 0;
+  virtual ~ISubscriber() {} 
 }; 
 
 // Hier Klassen Customer und GoldCustomer implementieren
@@ -33,7 +42,7 @@ public:
   } 
 
   void update(string c) override {
-     cout << "Customer" << id << c << endl; 
+     cout << "Customer" << id << ": neue Nachricht verfügbar --> " << c << endl; 
   }
 };
 
@@ -47,25 +56,60 @@ public:
    }
 
    void update(string c) override {
-    cout << "GoldCustomer" << id << c << endl; 
+    cout << "GoldCustomer" << id  << ": neue Nachricht verfügbar --> " << c << endl; 
   }
 }; 
 
-// Publisher 
+// Publisher -> Subject  
 class Store {
 private:
   list<ISubscriber *> _subscribers;
   map<string, unsigned int> _product_availability{{"iPhone", 0}, {"Galaxy", 5}};// state 
 public:
-  void subscribe(ISubscriber *s);
+  void subscribe(ISubscriber *s) {
+    _subscribers.push_back(s); 
+  }
 
-  void unsubscribe(ISubscriber *s); 
+  void unsubscribe(ISubscriber *s) {
+    _subscribers.remove(s); 
+  } 
 
-  void notify_subscribers(); 
+  void notify_subscribers(const string& m) {
+    for (auto sub : _subscribers) {
+            sub->update(m);
+        }
+  }
 
-  void deliver_products(string p, int quantity); 
+  void deliver_products(const string &model, int qty) {
+    cout << "Vorrätige Artikel vom Typ " << model << ": " << _product_availability[model] << endl;
+        cout << "Ausgelieferte Artikel vom Typ " << model << ": " << qty << endl;
+        _product_availability[model] += qty;
+        cout << "Neuer Bestand: " << _product_availability[model] << endl;
 
-  void sell_products(string p, int quantity); 
+        if (qty > 0 && _product_availability[model] == qty) {
+            notify_subscribers("Neue Artikel vom Typ " + model + " verfügbar.");
+        }
+  }
+
+  void sell_products(const string &model, int qty) {
+    if (_product_availability[model] < qty) {
+            throw OutOfStockException(_product_availability[model], qty);
+        }
+
+        if (_product_availability.find(model) != _product_availability.end()) {
+            cout << "Vorrätige Artikel vom Typ " << model << ": " << _product_availability[model] << endl;
+            cout << "Verkaufte Artikel vom Typ " << model << ": " << qty << endl;
+            _product_availability[model] -= qty;
+            cout << "Neuer Bestand: " << _product_availability[model] << endl;
+
+            if (_product_availability[model] == 0) {
+                notify_subscribers("Artikel vom Typ " + model + " nicht mehr verfügbar");
+            }
+        } else {
+            cout << "Produkt nicht gefunden." << endl;
+        }
+    }
+   
 };
 
 
