@@ -1,2 +1,2 @@
 # programming-tasks 
-This repo contains programming tasks from University, mainly in C and C++.  
+This repo contains programming tasks from University, mainly in C, C++ and Web.  
