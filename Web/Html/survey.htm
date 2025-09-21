@@ -9,10 +9,31 @@
  <p id="description">This is a survey form</p>
  <form id="survey-form">
   <label for="name" id="name-label">Name: </label>
-  <input type="text" id="name"/>
-  <label for=""></label>
-  <input required type="email" name="email" id="email"/>
-  <input type="number" id="number" min="3" max="22">
+  <input required type="text" id="name" placeholder="Dexter Morgan"/>
+  <label for="email" id="email-label">Email:</label>
+  <input required type="email" name="email" id="email" placeholder="mas@uka.com"/>
+  <label for="number" id="number-label">Number:</label>
+  <input type="number" id="number" min="3" max="22" placeholder="+64 2345 221232">
+  <select id="dropdown">
+    <option value="red">Red</option>
+    <option value="green">Green</option>
+  </select>
+  <input type="radio" name="lol" id="sus" value="sus">
+  <label for="sus">sus</label>
+  <input type="radio" name="lol" id="nosus" value="nosus">
+  <label for="nosus">nosus</label>
+  <button type="submit" id="submit">submit</button>
+  <input type="checkbox" id="reading" name="hobby" value="reading">
+  <label for="reading">Reading</label><br>
+
+  <input type="checkbox" id="sports" name="hobby" value="sports">
+  <label for="sports">Sports</label><br>
+
+  <input type="checkbox" id="music" name="hobby" value="music">
+  <label for="music">Music</label>
+
+  <label for="message">Your Message:</label><br>
+  <textarea id="message" name="message"></textarea>
  </form>
 </body>
 </html>
